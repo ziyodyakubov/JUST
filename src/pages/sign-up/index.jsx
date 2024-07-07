@@ -66,7 +66,7 @@ const Index = () => {
         closeModal={() => setOpen(false)}
       />
       <div className="h-screen flex-col flex items-center justify-center gap-5 p-5">
-        <h1 className="text-[35px] font-normal sm:text-[36px] md:text-[56px]">
+        <h1 className="text-[35px] text-gray-600 font-normal sm:text-[36px] md:text-[56px]">
           Sign Up
         </h1>
         <div className="max-w-[600px]">
@@ -85,7 +85,7 @@ const Index = () => {
                     <ErrorMessage
                       name="full_name"
                       component="span"
-                      className="text-[red] text-[15px]"
+                      className="text-gray-500 text-[15px]"
                     />
                   }
                 />
@@ -102,7 +102,7 @@ const Index = () => {
                     <ErrorMessage
                       name="phone_number"
                       component="span"
-                      className="text-[red] text-[15px]"
+                      className="text-gray-500 text-[15px]"
                     />
                   }
                 />
@@ -118,7 +118,7 @@ const Index = () => {
                     <ErrorMessage
                       name="email"
                       component="span"
-                      className="text-[red] text-[15px]"
+                      className="text-gray-500 text-[15px]"
                     />
                   }
                 />
@@ -134,7 +134,7 @@ const Index = () => {
                     <ErrorMessage
                       name="password"
                       component="span"
-                      className="text-[red] text-[15px]"
+                      className="text-gray-500 text-[15px]"
                     />
                   }
                   InputProps={{

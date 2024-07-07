@@ -20,9 +20,9 @@ const Index = () => {
     password: "",
   };
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
   const handleSubmit = async (values) => {
     try {
       const response = await auth.sign_in(values);
@@ -51,12 +51,11 @@ const Index = () => {
   }, []);
   return (
     <>
-      <SignInModal open={open}/>
       <div className="h-screen flex-col flex items-center justify-center p-5">
-        <h1 className="text-[35px] text-gray-600 font-normal sm:text-[36px] md:text-[56px]">
-          Sign In
+        <h1 className="text-[25px] text-gray-600 font-normal sm:text-[26px] md:text-[36px]">
+          Enter email
         </h1>
-        <div className="max-w-[400px]">
+        <div className="max-w-[500px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={signInValidationSchema}>
             {({ isSubmitting }) => (
               <Form>
@@ -64,8 +63,8 @@ const Index = () => {
                   name="email"
                   type="email"
                   as={TextField}
-                  label="Email address"
-                  fullWidth
+                  label="Email"
+                  sx={{width: "400px"}}
                   margin="normal"
                   variant="outlined"
                   helperText={
@@ -76,61 +75,19 @@ const Index = () => {
                     />
                   }
                 />
-                <Field
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  as={TextField}
-                  label="Password"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  helperText={
-                    <ErrorMessage
-                      name="password"
-                      component="span"
-                      className="text-gray-500 text-[15px]"
-                    />
-                  }
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end" sx={{backgroundColor: "white"}}>
-                        <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <span
-                  className="inline-block mb-3 text-[14px] cursor-pointer hover:text-blue-500"
-                  onClick={() => navigate("/forgot-password")}
-                >
-                  Forgot Password
-                </span>
-               
                <div className="flex justify-between">
                  <Button
                 id="gray"
                   type="submit"
                   variant="contained"
                   color="primary"
+                  fullWidth
                   disabled={isSubmitting}
-                  sx={{ marginBottom: "8px",width:"150px" }}
+                  sx={{ marginBottom: "8px",width:"400px" }}
                 >
                   {isSubmitting ? "Submitting" : "Submit"}
                 </Button>
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={isSubmitting}
-                  onClick={() => navigate("/sign-up")}
-                  sx={{ marginBottom: "8px" }}>
-                  I have not an account
-                </Button>
                </div>
 
               </Form>
