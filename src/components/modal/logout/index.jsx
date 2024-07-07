@@ -51,8 +51,8 @@ export default function BasicModal() {
               Do you want to exit?
             </Typography>
             <div style={{display: "flex", gap: "12px", marginTop: "64px"}}>
-              <Button onClick={handleClose}>No</Button>
-              <Button onClick={logOut} variant="contained">Yes</Button>
+              <Button id="gray" onClick={handleClose} variant="contained">No</Button>
+              <Button id="gray" onClick={logOut} variant="contained">Yes</Button>
             </div>
           </div>
         </Box>

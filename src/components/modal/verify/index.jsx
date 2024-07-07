@@ -79,14 +79,6 @@ export default function BasicModal({ open, setOpen, email, closeModal }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography
-            id="keep-mounted-modal-title"
-            className="text-center"
-            variant="h6"
-            component="h2"
-          >
-            Parolni kiriting
-          </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
@@ -97,8 +89,8 @@ export default function BasicModal({ open, setOpen, email, closeModal }) {
               name="code"
             />
             <Typography>{`Time left: ${secondsLeft} seconds`}</Typography>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Tasdiqlash
+            <Button  id="gray" type="submit" variant="contained" color="primary" fullWidth>
+             Submit
             </Button>
           </form>
         </Box>

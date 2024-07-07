@@ -88,7 +88,7 @@ import { useNavigate } from "react-router-dom";
               variant="h6"
               component="h2"
             >
-              Parolni tiklash
+              Reset password
             </Typography>
             <Formik
               initialValues={initialValues}
@@ -144,12 +144,13 @@ import { useNavigate } from "react-router-dom";
                   {`Time left: ${secondsLeft} seconds`}
                 </Typography>
                 <Button
+                id="gray"
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
                 >
-                  Tasdiqlash
+                  Submit
                 </Button>
               </Form>
             </Formik>

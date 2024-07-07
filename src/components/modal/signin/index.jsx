@@ -60,7 +60,7 @@ export default function NestedModal({open, handleClose}) {
           variant="h6"
           component="h2"
           >
-            Email kiriting
+            Enter email
           </Typography>
           <Formik
           initialValues={initialValues}
@@ -81,6 +81,7 @@ export default function NestedModal({open, handleClose}) {
               }
               />
               <Button
+              id="gray"
               type="submit"
               variant="contained"
               color="primary"

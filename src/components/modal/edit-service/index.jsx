@@ -56,7 +56,7 @@ export default function AddService() {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained">
+      <Button id="gray" onClick={handleOpen} variant="contained">
         Add Service
       </Button>
       <Modal
@@ -118,6 +118,7 @@ export default function AddService() {
                     }}
                   >
                     <Button
+                    id="gray"
                       onClick={handleClose}
                       type="button"
                       variant="contained"
@@ -126,6 +127,7 @@ export default function AddService() {
                       Close
                     </Button>
                     <Button
+                    id="gray"
                       type="submit"
                       variant="contained"
                       color="success"

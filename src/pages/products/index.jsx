@@ -11,12 +11,19 @@ import EditIcon from "@mui/icons-material/Edit";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Pagination from '@mui/material/Pagination';
 import service from "../../service/service";
 import ServiceModal from "../../components/modal/sevice-modal";
 
+
+const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  backgroundColor: 'rgb(110, 126, 142)',
+  color: theme.palette.common.white,
+}));
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: 'rgb(110, 126, 142)',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -25,10 +32,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
-  "&:last-child td, &:last-child th": {
+  '&:last-child td, &:last-child th': {
     border: 0,
   },
 }));
@@ -55,6 +62,11 @@ const Index = () => {
     fetchData();
   }, []);
 
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+
   const deleteItem = async (id) => {
     try {
       const response = await service.delete(id);
@@ -62,11 +74,11 @@ const Index = () => {
       Notification({
         title: "Successfully deleted",
         type: "success",
-      })
+      });
 
       setTimeout(function(){
-        window.location.reload()
-      },2000)
+        window.location.reload();
+      }, 2000);
       }
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -91,39 +103,41 @@ const Index = () => {
   return (
     <div>
       <div className="flex w-full justify-between items-center mb-6">
-        <h1 className="text-2xl">Service</h1>
-        <Button onClick={handleAddService} variant="contained">
-          Add Service
+        <h1 className="text-2xl">Products</h1>
+        <Button id="gray" onClick={handleAddService} variant="contained">
+          Add Product
         </Button>
       </div>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
+          <StyledTableHead>
             <TableRow>
               <StyledTableCell>T/R</StyledTableCell>
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell align="center">Price</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
+              <StyledTableCell align="right">Action</StyledTableCell>
             </TableRow>
-          </TableHead>
+          </StyledTableHead>
           <TableBody>
             {services.map((row, index) => (
               <StyledTableRow key={row.id}>
                 <StyledTableCell>{index + 1}</StyledTableCell>
                 <StyledTableCell>{row.name.charAt(0).toUpperCase() + row.name.slice(1)}</StyledTableCell>
                 <StyledTableCell align="center">{`${row.price} UZS`}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <Button>
+                <StyledTableCell>
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
                     <EditIcon color="error" onClick={() => editItem(row)} />
                     <DeleteIcon color="error" onClick={() => deleteItem(row.id)} />
-                  </Button>
+                  </div>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+       <Pagination className="flex justify-center mt-4 text-[#fff]" count={5} page={page} onChange={handleChange} />
 
       <ServiceModal open={open} handleClose={handleClose} edit={edit} fetchData={fetchData} />
     </div>

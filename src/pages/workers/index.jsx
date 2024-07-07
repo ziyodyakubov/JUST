@@ -13,11 +13,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import order from "../../service/order";
-import OrderModal from "./../../components/modal/order-modal";
+import Pagination from '@mui/material/Pagination';
+import OrderModal from "../../components/modal/order-modal";
+
+const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  backgroundColor: 'rgb(110, 126, 142)',
+  color: theme.palette.common.white,
+}));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: 'rgb(110, 126, 142)',
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -26,10 +32,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
-  "&:last-child td, &:last-child th": {
+  '&:last-child td, &:last-child th': {
     border: 0,
   },
 }));
@@ -55,6 +61,11 @@ const Index = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
 
   // const getData = async () => {
@@ -109,8 +120,8 @@ const Index = () => {
   return (
     <div>
       <div className="flex w-full justify-between items-center mb-6">
-        <h1 className="text-2xl">Orders</h1>
-        <Button onClick={handleAddOrder} variant="contained">
+        <h1 className="text-2xl">Workers</h1>
+        <Button id="gray" onClick={handleAddOrder} variant="contained">
           Add Order
         </Button>
       </div>
@@ -158,6 +169,8 @@ const Index = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Pagination className="flex justify-center mt-4 text-[#fff]" count={5} page={page} onChange={handleChange} />
 
       <OrderModal open={open} handleClose={handleClose} edit={edit} fetchData={fetchData} />
     </div>

@@ -93,7 +93,7 @@ const Index = () => {
                   }
                   InputProps={{
                     endAdornment: (
-                      <InputAdornment position="end">
+                      <InputAdornment position="end" sx={{backgroundColor: "white"}}>
                         <IconButton
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
@@ -111,6 +111,7 @@ const Index = () => {
                   Forgot Password?
                 </p>
                 <Button
+                id="gray"
                   type="submit"
                   variant="contained"
                   color="primary"

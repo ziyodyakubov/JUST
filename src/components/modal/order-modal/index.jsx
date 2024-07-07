@@ -156,7 +156,7 @@ const OrderModal = ({ open, handleClose, edit, fetchData }) => {
                                         display: "flex",
                                         justifyContent: "end",
                                         gap: "12px",
-                                        marginTop: "5px",
+                                        marginTop: "20px",
                                     }}
                                 >
                                     <Button
@@ -168,6 +168,7 @@ const OrderModal = ({ open, handleClose, edit, fetchData }) => {
                                         Close
                                     </Button>
                                     <Button
+                                    id="gray"
                                         type="submit"
                                         variant="contained"
                                         color="success"

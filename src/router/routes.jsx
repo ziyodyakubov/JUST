@@ -1,21 +1,21 @@
-import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
-import HomeIcon from '@mui/icons-material/Home';
-import BorderStyleIcon from '@mui/icons-material/BorderStyle';
+import CategoryIcon from '@mui/icons-material/Category';
+import CheckroomIcon from '@mui/icons-material/Checkroom';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 const routes = [
     {
         path: "/",
         content: "Category",
-        icon: <HomeIcon/>
+        icon: <CategoryIcon/>
     },
     {
         path: "/products",
         content: "Products",
-        icon: <LocalPostOfficeIcon/>
+        icon: <CheckroomIcon/>
     },
     {
         path: "/workers",
         content: "Workers",
-        icon: <BorderStyleIcon/>
+        icon: <PeopleAltIcon/>
     },
 ]
 

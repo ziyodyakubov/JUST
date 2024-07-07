@@ -117,6 +117,7 @@ const ServiceModal = ({ open, handleClose, edit, fetchData }) => {
                     Close
                   </Button>
                   <Button
+                  id="gray"
                     type="submit"
                     variant="contained"
                     color="success"
