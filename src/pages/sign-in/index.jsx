@@ -56,7 +56,7 @@ const Index = () => {
         <h1 className="text-[35px] font-normal sm:text-[36px] md:text-[56px]">
           Sign In
         </h1>
-        <div className="max-w-[600px]">
+        <div className="max-w-[400px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={signInValidationSchema}>
             {({ isSubmitting }) => (
               <Form>
@@ -104,29 +104,35 @@ const Index = () => {
                     ),
                   }}
                 />
-                <p
-                  className="mb-3 cursor-pointer hover:text-blue-500"
+                <span
+                  className="inline-block mb-3 text-[14px] cursor-pointer hover:text-blue-500"
                   onClick={() => setOpen(true)}
                 >
-                  Forgot Password?
-                </p>
-                <Button
+                  Forgot Password
+                </span>
+               
+               <div className="flex justify-between">
+                 <Button
                 id="gray"
                   type="submit"
                   variant="contained"
                   color="primary"
-                  fullWidth
                   disabled={isSubmitting}
-                  sx={{ marginBottom: "8px" }}
+                  sx={{ marginBottom: "8px",width:"150px" }}
                 >
-                  {isSubmitting ? "Signing" : "Sign In"}
+                  {isSubmitting ? "Submitting" : "Submit"}
                 </Button>
-                <span
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={isSubmitting}
                   onClick={() => navigate("/sign-up")}
-                  className=" text-blue-300 cursor-pointer hover:text-blue-500"
-                >
-                  Sign Up
-                </span>
+                  sx={{ marginBottom: "8px" }}>
+                  I have not an account
+                </Button>
+               </div>
+
               </Form>
             )}
           </Formik>

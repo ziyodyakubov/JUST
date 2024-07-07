@@ -127,8 +127,8 @@ const Index = () => {
                 <StyledTableCell align="center">{`${row.price} UZS`}</StyledTableCell>
                 <StyledTableCell>
                   <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
-                    <EditIcon color="error" onClick={() => editItem(row)} />
-                    <DeleteIcon color="error" onClick={() => deleteItem(row.id)} />
+                    <EditIcon className="text-gray-500" onClick={() => editItem(row)} />
+                    <DeleteIcon className="text-gray-500" onClick={() => deleteItem(row.id)} />
                   </div>
                 </StyledTableCell>
               </StyledTableRow>

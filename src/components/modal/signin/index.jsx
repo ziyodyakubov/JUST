@@ -5,6 +5,7 @@ import ChildModal from './child-modal'
 import { auth } from "@service"
 import { useState } from "react"
 import Notification from "../../../utils/notification"
+
 const style = {
   position: "absolute",
   top: "50%",

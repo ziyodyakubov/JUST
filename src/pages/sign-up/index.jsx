@@ -67,7 +67,7 @@ const Index = () => {
       />
       <div className="h-screen flex-col flex items-center justify-center gap-5 p-5">
         <h1 className="text-[35px] font-normal sm:text-[36px] md:text-[56px]">
-          Register
+          Sign Up
         </h1>
         <div className="max-w-[600px]">
           <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={signUpValidationSchema}>
@@ -150,23 +150,27 @@ const Index = () => {
                     ),
                   }}
                 />
-                <Button
+              <div className="flex justify-between items-center">
+                  <Button
                 id="gray"
                   type="submit"
                   variant="contained"
                   color="primary"
-                  fullWidth
+                  disabled={isSubmitting}
+                  sx={{ marginBottom: "8px",width:"300px"}}
+                >
+                  {isSubmitting ? "Submitting" : "Submit"}
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
                   disabled={isSubmitting}
                   sx={{ marginBottom: "8px" }}
-                >
-                  {isSubmitting ? "Yuborilmoqda..." : "Sign Up"}
+                  onClick={() => navigate("/sign-in")}>
+                    I have an account
                 </Button>
-                <span
-                  onClick={() => navigate("/sign-in")}
-                  className=" text-blue-300 cursor-pointer hover:text-blue-500"
-                >
-                  Sign In
-                </span>
+              </div>
               </Form>
             )}
           </Formik>

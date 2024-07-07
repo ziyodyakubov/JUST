@@ -100,7 +100,7 @@ import { useNavigate } from "react-router-dom";
                   name="code"
                   type="text"
                   as={TextField}
-                  label="Kod"
+                  label="Code"
                   fullWidth
                   margin="normal"
                   variant="outlined"
@@ -116,7 +116,7 @@ import { useNavigate } from "react-router-dom";
                   name="new_password"
                   type={showPassword ? "text" : "password"}
                   as={TextField}
-                  label="Yangi Parol"
+                  label="New password"
                   fullWidth
                   margin="normal"
                   variant="outlined"
