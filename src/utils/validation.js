@@ -19,6 +19,36 @@ export const CategoryValidationSchema = Yup.object().shape({
 });
 
 
+// ========== WORKER ==================
+
+export const WorkerValidationSchema = Yup.object().shape({
+  first_name: Yup.string()
+    .min(2, 'First name is too short!')
+    .max(50, 'First name is too long!')
+    .required('First name is required'),
+  last_name: Yup.string()
+    .min(2, 'Last name is too short!')
+    .max(50, 'Last name is too long!')
+    .required('Last name is required'),
+  age: Yup.number()
+    .min(18, 'Age must be at least 18')
+    .max(65, 'Age must be at most 65')
+    .required('Age is required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  phone_number: Yup.string()
+    .matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number')
+    .required('Phone number is required'),
+  gender: Yup.string()
+    .oneOf(['male', 'female'], 'Invalid gender')
+    .required('Gender is required'),
+  password: Yup.string()
+    .min(8, 'Password is too short!')
+    .required('Password is required'),
+});
+
+
 // =========== PRODUCTS ================
 
 export const ProductValidationSchema = Yup.object().shape({

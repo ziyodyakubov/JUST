@@ -7,25 +7,22 @@ import Notification from "../../utils/notification";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
-import product from "../../service/product";
-import { UploadOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-import ProductModal from "../../components/modal/product-modal";
-import PermMediaIcon from '@mui/icons-material/PermMedia';
-import InfoIcon from '@mui/icons-material/Info';
+import worker from "../../service/workers";
+import WorkerModal from "../../components/modal/worker-modal";
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
-  backgroundColor: 'rgb(110, 126, 142)',
+  backgroundColor: "rgb(110, 126, 142)",
   color: theme.palette.common.white,
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: 'rgb(110, 126, 142)',
+    backgroundColor: "rgb(110, 126, 142)",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -34,50 +31,61 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
 
 const Index = () => {
-  const [products, setProducts] = useState([]);
+  const [workers, setWorkers] = useState([]);
   const [edit, setEdit] = useState(null);
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
+  const [count,setCount] = useState(0)
+  const [params,setParams] = useState({
+    limit:5,
+    page: 1
+  })
 
-  const fetchData = async () => {
+  const getData = async () => {
     try {
-      const response = await product.get({ page, limit: 10 });
-      if (response.status === 200) {
-        setProducts(response.data.products);
+      const response = await worker.get(params);
+      if (response.status === 200 && response.data.user) {
+        setWorkers(response.data.user);
+        let total = Math.ceil(response.data.totcal_count / params.limit)
+        setCount(total)
       }
     } catch (error) {
-      setError("Error fetching data");
-      console.error("Error fetching data:", error);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, [page]);
+    getData();
+  }, [params]);
 
-  const handleChange = (event, value) => {
-    setPage(value);
+    const handleChange = (event, value) => {
+     setParams((prevParams) => ({
+      ...prevParams,
+      page: value,
+    }));
   };
+
 
   const deleteItem = async (id) => {
     try {
-      const response = await product.delete(id);
+      const response = await worker.delete(id);
       if (response.status === 200) {
         Notification({
           title: "Successfully deleted",
           type: "success",
         });
-        fetchData();
+        getData();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1600);
       }
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -98,22 +106,9 @@ const Index = () => {
     setEdit(null);
   };
 
-  const handleAddProduct = () => {
+  const handleAddWorker = () => {
     setEdit(null);
     setOpen(true);
-  };
-
-  const props = {
-    beforeUpload: (file) => {
-      const isPNG = file.type === 'image/png';
-      if (!isPNG) {
-        message.error(`${file.name} is not a png file`);
-      }
-      return isPNG || Upload.LIST_IGNORE;
-    },
-    onChange: (info) => {
-      console.log(info.fileList);
-    },
   };
 
   return (
@@ -148,22 +143,22 @@ const Index = () => {
                     </form>
                   </StyledTableCell>
                   <StyledTableCell>{index + 1}</StyledTableCell>
-                  <StyledTableCell align="start">{row.amount}</StyledTableCell>
-                  <StyledTableCell align="right">{row.client_name}</StyledTableCell>
-                  <StyledTableCell align="right">{row.client_phone_number}</StyledTableCell>
-                  <StyledTableCell align="right">{row.status}</StyledTableCell>
+                  <StyledTableCell align="start">{row.first_name}</StyledTableCell>
+                  <StyledTableCell align="start">{row.last_name}</StyledTableCell>
+                  <StyledTableCell align="start">{row.gender}</StyledTableCell>
+                  <StyledTableCell align="right">{row.age}</StyledTableCell>
                   <StyledTableCell align="right">
                     <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
-
-                      <EditIcon className="text-gray-500"
+                      <EditIcon
+                        className="text-gray-500"
                         style={{ cursor: "pointer" }}
-                        onClick={() => editItem(row)} />
-
-                      <DeleteIcon className="text-gray-500"
+                        onClick={() => editItem(row)}
+                      />
+                      <DeleteIcon
+                        className="text-gray-500"
                         style={{ cursor: "pointer" }}
                         onClick={() => deleteItem(row.id)}
                       />
-
                     </div>
                   </StyledTableCell>
                 </StyledTableRow>
@@ -172,9 +167,12 @@ const Index = () => {
         </Table>
       </TableContainer>
 
-      <Pagination className="flex justify-center mt-4 text-[#fff]" count={5} page={page} onChange={handleChange} />
+      <Pagination
+        className="flex justify-center mt-4 text-[#fff]"
+        count={count} page={params.page} onChange={handleChange}
+      />
 
-      {/* <OrderModal open={open} handleClose={handleClose} edit={edit} fetchData={fetchData} /> */}
+      <WorkerModal open={open} handleClose={handleClose} edit={edit} getData={getData} />
     </div>
   );
 };

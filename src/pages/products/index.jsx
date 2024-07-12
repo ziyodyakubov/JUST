@@ -17,6 +17,7 @@ import { message, Upload } from 'antd';
 import ProductModal from "../../components/modal/product-modal";
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate } from "react-router-dom";
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: 'rgb(110, 126, 142)',
@@ -47,13 +48,20 @@ const Index = () => {
   const [edit, setEdit] = useState(null);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
+  const navigate = useNavigate()
+  const [count,setCount] = useState(0)
+  const [params,setParams] = useState({
+    limit:5,
+    page: 1
+  })
 
   const fetchData = async () => {
     try {
-      const response = await product.get({ page, limit: 10 });
+      const response = await product.get(params);
       if (response.status === 200) {
         setProducts(response.data.products); 
+        let total = Math.ceil(response.data.total_count / params.limit)
+        setCount(total)
       }
     } catch (error) {
       setError("Error fetching data");
@@ -63,10 +71,13 @@ const Index = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page]);
+  }, [params]);
 
   const handleChange = (event, value) => {
-    setPage(value);
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: value,
+    }));
   };
 
   const deleteItem = async (id) => {
@@ -92,6 +103,14 @@ const Index = () => {
     setEdit(row);
     setOpen(true);
   };
+
+  const infoItem = (id)=>{
+    navigate(`/products/${id}`);
+  }
+
+  const uploadImage = (id) =>{
+    console.log(id)
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -156,10 +175,11 @@ const Index = () => {
                 <StyledTableCell>
                   <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
                     <DeleteIcon className="text-gray-500 cursor-pointer" onClick={() => deleteItem(row.product_id)} />
-                      <Upload {...props}>
+                      <Upload {...props} onClick={()=> uploadImage(row.product_id)
+                      }>
                   <PermMediaIcon  className="cursor-pointer text-gray-500" icon={<UploadOutlined />}/>
                   </Upload>
-                    <InfoIcon className="text-gray-500 cursor-pointer" onClick={() => infoItem(row)} />
+                    <InfoIcon className="text-gray-500 cursor-pointer" onClick={() => infoItem(row.product_id)} />
                   </div>
                 </StyledTableCell>
               </StyledTableRow>
@@ -168,7 +188,7 @@ const Index = () => {
         </Table>
       </TableContainer>
 
-      <Pagination className="flex justify-center mt-4 text-[#fff]" count={5} page={page} onChange={handleChange} />
+      <Pagination className="flex justify-center mt-4 text-[#fff]" count={count} page={params.page} onChange={handleChange}  />
 
       <ProductModal open={open} handleClose={handleClose} edit={edit} fetchData={fetchData} />
     </div>

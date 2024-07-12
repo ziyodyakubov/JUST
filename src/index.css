@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+    margin: 0 ;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif !important;
+}
+
 
 #gray{
     background: rgb(110, 126, 142);
+}
+
+.graychi{
+    color: rgb(110, 126, 142) !important;
 }

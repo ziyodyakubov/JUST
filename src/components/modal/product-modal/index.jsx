@@ -73,15 +73,26 @@ const ProductModal = ({ open, handleClose, edit, fetchData }) => {
             type: "success",
           });
       } else {
-        response = await product.add(payload);
+          response = await product.add(payload)
+          if(response.status === 200 || response.status === 201){
           Notification({
             title: "Successfully added",
             type: "success",
           });
+
+          setTimeout(()=>{
+            window.location.reload()
+          },1600)
+          }else{
+          Notification({
+            title: "Unsuccessfully added",
+            type: "error",
+          });
+          }
       }
 
       if (response.status === 200 || response.status === 201) {
-        fetchData();
+        getData();
         handleClose();
       } else {
         console.error("Error: ", response.statusText, response.data);
@@ -102,7 +113,7 @@ const ProductModal = ({ open, handleClose, edit, fetchData }) => {
   const [data, setData] = useState([]);
   const getData = async () => {
     try {
-      const response = await category.get();
+      const response = await category.get({page: 1,limit:10});
       if (response.status === 200 && response?.data?.categories) {
         setData(response?.data?.categories);
       }
@@ -110,6 +121,8 @@ const ProductModal = ({ open, handleClose, edit, fetchData }) => {
       console.log(error);
     }
   };
+
+  console.log("data",data)
 
   useEffect(() => {
     getData();

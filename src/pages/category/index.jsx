@@ -44,12 +44,19 @@ const Index = () => {
   const [edit, setEdit] = useState(null);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [count,setCount] = useState(0)
+  const [params,setParams] = useState({
+    limit:5,
+    page: 1
+  })
 
   const fetchData = async () => {
     try {
-      const response = await category.get();
+      const response = await category.get(params);
       if (response.status === 200) {
         setCategory(response.data.categories);
+        let total = Math.ceil(response.data.total_count / params.limit)
+        setCount(total)
       }
     } catch (error) {
       setError("Error fetching data");
@@ -59,11 +66,13 @@ const Index = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [params]);
 
-  const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
-    setPage(value);
+     setParams((prevParams) => ({
+      ...prevParams,
+      page: value,
+    }));
   };
 
   const deleteItem = async (id) => {
@@ -150,7 +159,7 @@ const Index = () => {
         </Table>
       </TableContainer>
 
-      <Pagination className="flex justify-center mt-4 text-[#fff]" count={5} page={page} onChange={handleChange} />
+      <Pagination className="flex justify-center mt-4 text-[#fff]" count={count} page={params.page} onChange={handleChange} />
 
       <CategoryModal open={open} handleClose={handleClose} edit={edit} fetchData={fetchData} />
     </div>
