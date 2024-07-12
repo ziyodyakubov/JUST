@@ -12,22 +12,22 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { auth } from "../../service/index";
 import { Notification } from "../../utils/index";
 import {signInValidationSchema} from "../../utils/validation"
-import {SignInModal} from "../../components/modal"
 
 const Index = () => {
   const initialValues = {
-    email: "",
-    password: "",
+    email: "xasannosirov094@gmail.com",
+    password: "Sehtols@01",
   };
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  
   const handleSubmit = async (values) => {
     try {
-      const response = await auth.sign_in(values);
+      const response = await auth.login(values);
       if (response.status === 200) {
+        console.log(response)
         localStorage.setItem("access_token", response?.data?.access_token);
+        localStorage.setItem("refresh_token",response?.data?.refresh_token)
         Notification({
           title: "Sign In Successfuly",
           type: "success",
@@ -51,7 +51,6 @@ const Index = () => {
   }, []);
   return (
     <>
-      <SignInModal open={open}/>
       <div className="h-screen flex-col flex items-center justify-center p-5">
         <h1 className="text-[35px] text-gray-600 font-normal sm:text-[36px] md:text-[56px]">
           Sign In
@@ -104,34 +103,18 @@ const Index = () => {
                     ),
                   }}
                 />
-                <span
-                  className="inline-block mb-3 text-[14px] cursor-pointer hover:text-blue-500"
-                  onClick={() => navigate("/forgot-password")}
-                >
-                  Forgot Password
-                </span>
                
-               <div className="flex justify-between">
                  <Button
                 id="gray"
                   type="submit"
                   variant="contained"
                   color="primary"
+                  fullWidth
                   disabled={isSubmitting}
-                  sx={{ marginBottom: "8px",width:"150px" }}
                 >
                   {isSubmitting ? "Submitting" : "Submit"}
                 </Button>
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={isSubmitting}
-                  onClick={() => navigate("/sign-up")}
-                  sx={{ marginBottom: "8px" }}>
-                  I have not an account
-                </Button>
-               </div>
 
               </Form>
             )}

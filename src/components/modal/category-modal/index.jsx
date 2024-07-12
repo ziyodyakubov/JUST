@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Modal, Button, TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { ServiceValidationSchema } from "../../../utils/validation";
-import service from "../../../service/service";
+import { CategoryValidationSchema } from "../../../utils/validation";
+import category from "../../../service/category";
 import Notification from "../../../utils/notification";
 
 const style = {
@@ -19,28 +19,27 @@ const style = {
   outline: "none",
 };
 
-const ServiceModal = ({ open, handleClose, edit, fetchData }) => {
+const CategoryModal = ({ open, handleClose, edit, fetchData }) => {
   const initialValues = {
-    name: edit ? edit.name : "",
-    price: edit ? edit.price : 0,
+    category_name: edit ? edit.category_name : "",
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       console.log("Submitted values:", values);
       let response;
-      if (edit && edit.id) {
-        response = await service.edit({ id: edit.id, ...values });
-      Notification({
-        title: "Successfully edited",
-        type: "success",
-      })
+      if (edit && edit.category_id) {
+        response = await category.edit({ category_id: edit.category_id, ...values });
+        Notification({
+          title: "Successfully edited",
+          type: "success",
+        });
       } else {
-        response = await service.add(values);
-      Notification({
-        title: "Successfully added",
-        type: "success",
-      })
+        response = await category.add(values);
+        Notification({
+          title: "Successfully added",
+          type: "success",
+        });
       }
 
       if (response.status === 200 || response.status === 201) {
@@ -51,6 +50,8 @@ const ServiceModal = ({ open, handleClose, edit, fetchData }) => {
       }
     } catch (err) {
       console.error("Error submitting form: ", err.response ? err.response.data : err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -70,36 +71,27 @@ const ServiceModal = ({ open, handleClose, edit, fetchData }) => {
       <Box sx={style}>
         <div>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {edit ? "Edit Service" : "Add Service"}
+            {edit ? "Edit Category" : "Add Category"}
           </Typography>
           <Formik
             initialValues={initialValues}
             onSubmit={handleSubmit}
-            validationSchema={ServiceValidationSchema}
+            validationSchema={CategoryValidationSchema}
             enableReinitialize={true}
           >
             {({ isSubmitting }) => (
               <Form>
                 <Field
-                  name="name"
+                  name="category_name"
                   type="text"
                   as={TextField}
-                  label="Service Name"
+                  label="Category Name"
                   fullWidth
                   margin="normal"
                   variant="outlined"
-                  helperText={<ErrorMessage name="name" component="span" />}
+                  helperText={<ErrorMessage name="category_name" component="span" />}
                 />
-                <Field
-                  name="price"
-                  type="number"
-                  as={TextField}
-                  label="Service Price"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  helperText={<ErrorMessage name="price" component="span" />}
-                />
+
                 <div
                   style={{
                     display: "flex",
@@ -117,7 +109,7 @@ const ServiceModal = ({ open, handleClose, edit, fetchData }) => {
                     Close
                   </Button>
                   <Button
-                  id="gray"
+                    id="gray"
                     type="submit"
                     variant="contained"
                     color="success"
@@ -135,4 +127,4 @@ const ServiceModal = ({ open, handleClose, edit, fetchData }) => {
   );
 };
 
-export default ServiceModal;
+export default CategoryModal;

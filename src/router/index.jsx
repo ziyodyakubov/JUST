@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import App from "../App";
-import { SignIn, SignUp, Main, Products, Category, Workers,Forgot} from "@pages";
+import { SignIn,Main, Products, Category, Workers} from "@pages";
 
 const Index = () => {
   const router = createBrowserRouter(
@@ -16,9 +16,7 @@ const Index = () => {
           <Route path="/products" element={<Products />} />
           <Route path="/workers" element={<Workers />} />
         </Route>
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/forgot-password" element={<Forgot/>}/>
+        <Route path="/login" element={<SignIn />} />
       </Route>
     )
   );

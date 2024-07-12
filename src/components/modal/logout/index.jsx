@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import Notification from "../../../utils/notification";
 
 const style = {
   position: "absolute",
@@ -27,8 +28,13 @@ export default function BasicModal() {
   const navigate = useNavigate();
   const logOut = () => {
     localStorage.removeItem("access_token");
-    navigate("/sign-in")
-    window.location.reload()
+      Notification({
+          title: "Log Out Successfully",
+          type: "success",
+        });
+        setTimeout(() => {
+           navigate("/login")
+        }, 2300);
   };
 
   return (
