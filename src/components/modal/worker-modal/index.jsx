@@ -42,15 +42,12 @@ const WorkerModal = ({ open, handleClose, edit, getData }) => {
         });
       } else {
         response = await worker.add({ ...values });
-        console.log("Add worker response:", response); // Debugging log
+        console.log("Add worker response:", response); 
         if (response.status === 200 || response.status === 201) {
           Notification({
             title: "Successfully added",
             type: "success",
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1600);
         } else {
           console.error("Error: ", response.statusText, response.data);
         }

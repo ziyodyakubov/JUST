@@ -18,6 +18,7 @@ import ProductModal from "../../components/modal/product-modal";
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
+import http from "../../service/config"
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: 'rgb(110, 126, 142)',
@@ -99,18 +100,10 @@ const Index = () => {
     }
   };
 
-  const editItem = (row) => {
-    setEdit(row);
-    setOpen(true);
-  };
-
   const infoItem = (id)=>{
     navigate(`/products/${id}`);
   }
 
-  const uploadImage = (id) =>{
-    console.log(id)
-  }
 
   const handleClose = () => {
     setOpen(false);
@@ -122,13 +115,24 @@ const Index = () => {
     setOpen(true);
   };
 
-  const props = {
+
+const props = {
   beforeUpload: (file) => {
     const isPNG = file.type === 'image/png';
-    if (!isPNG) {
-      message.error(`${file.name} is not a png file`);
+    const isJPG = file.type === 'image/jpg';
+    const isSVG = file.type === 'image/svg';
+
+    const id = "cf3dab8f-7e01-4c8e-bd98-99821071e2cf"
+
+    if (!isPNG || !isJPG || !isSVG) {
+      console.log(file)
+      const files = new FormData()
+      files.append("file",file)
+      http.post(`media/upload-photo?id=${id}`,files)
+
+      message.success(`${file.name} added`);
     }
-    return isPNG || Upload.LIST_IGNORE;
+    return Upload.LIST_IGNORE;
   },
   onChange: (info) => {
     console.log(info.fileList);
@@ -175,9 +179,8 @@ const Index = () => {
                 <StyledTableCell>
                   <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
                     <DeleteIcon className="text-gray-500 cursor-pointer" onClick={() => deleteItem(row.product_id)} />
-                      <Upload {...props} onClick={()=> uploadImage(row.product_id)
-                      }>
-                  <PermMediaIcon  className="cursor-pointer text-gray-500" icon={<UploadOutlined />}/>
+                      <Upload {...props}>
+                  <PermMediaIcon className="cursor-pointer text-gray-500" icon={<UploadOutlined />}/>
                   </Upload>
                     <InfoIcon className="text-gray-500 cursor-pointer" onClick={() => infoItem(row.product_id)} />
                   </div>

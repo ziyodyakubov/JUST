@@ -86,7 +86,7 @@ const Index = () => {
 
         setTimeout(function () {
           window.location.reload();
-        }, 2000);
+        }, 1700);
       } else {
         console.error("Error deleting item, response status:", response.status);
         Notification({

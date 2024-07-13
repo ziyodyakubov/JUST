@@ -83,9 +83,6 @@ const Index = () => {
           type: "success",
         });
         getData();
-        setTimeout(() => {
-          window.location.reload();
-        }, 1600);
       }
     } catch (error) {
       console.error("Error deleting item:", error);

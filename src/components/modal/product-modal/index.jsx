@@ -79,10 +79,9 @@ const ProductModal = ({ open, handleClose, edit, fetchData }) => {
             title: "Successfully added",
             type: "success",
           });
-
-          setTimeout(()=>{
-            window.location.reload()
-          },1600)
+        setTimeout(function () {
+          window.location.reload();
+        }, 1700);
           }else{
           Notification({
             title: "Unsuccessfully added",
