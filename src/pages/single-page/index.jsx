@@ -128,7 +128,7 @@ const SinglePage = () => {
                                     <CardMedia
                                         component="img"
                                         height="auto"
-                                        image={products.image_url}
+                                        image={products.image_url[0]}
                                         alt="product image"
                                     />
                                 )}
